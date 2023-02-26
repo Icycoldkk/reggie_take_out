@@ -1,0 +1,33 @@
+<component name="ProjectCodeStyleConfiguration">
+  <code_scheme name="Project" version="173">
+    <HTMLCodeStyleSettings>
+      <option name="HTML_UNIFORM_INDENT" value="true" />
+    </HTMLCodeStyleSettings>
+    <JavaCodeStyleSettings>
+      <option name="NEW_LINE_AFTER_LPAREN_IN_DECONSTRUCTION_PATTERN" value="false" />
+      <option name="RPAREN_ON_NEW_LINE_IN_DECONSTRUCTION_PATTERN" value="false" />
+    </JavaCodeStyleSettings>
+    <ScalaCodeStyleSettings>
+      <option name="MULTILINE_STRING_CLOSING_QUOTES_ON_NEW_LINE" value="true" />
+    </ScalaCodeStyleSettings>
+    <codeStyleSettings language="HTML">
+      <indentOptions>
+        <option name="TAB_SIZE" value="8" />
+        <option name="KEEP_INDENTS_ON_EMPTY_LINES" value="true" />
+      </indentOptions>
+    </codeStyleSettings>
+    <codeStyleSettings language="JAVA">
+      <option name="BRACE_STYLE" value="2" />
+      <option name="CLASS_BRACE_STYLE" value="2" />
+      <option name="METHOD_BRACE_STYLE" value="2" />
+      <option name="LAMBDA_BRACE_STYLE" value="2" />
+      <option name="ELSE_ON_NEW_LINE" value="true" />
+      <option name="WHILE_ON_NEW_LINE" value="true" />
+      <option name="CATCH_ON_NEW_LINE" value="true" />
+      <option name="FINALLY_ON_NEW_LINE" value="true" />
+      <option name="ALIGN_MULTILINE_ARRAY_INITIALIZER_EXPRESSION" value="true" />
+      <option name="ARRAY_INITIALIZER_LBRACE_ON_NEXT_LINE" value="true" />
+      <option name="ARRAY_INITIALIZER_RBRACE_ON_NEXT_LINE" value="true" />
+    </codeStyleSettings>
+  </code_scheme>
+</component>

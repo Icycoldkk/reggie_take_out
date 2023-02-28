@@ -13,6 +13,7 @@ import com.lkl.service.DishService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,6 +33,8 @@ public class DishController
     @Autowired
     private CategroyService categroyService;
 
+    @Autowired
+    private RedisTemplate redisTemplate;
 
 
     @GetMapping("/{id}")
@@ -44,6 +47,8 @@ public class DishController
     @PostMapping
     public R<String> save(@RequestBody DishDto dishDto)
     {
+        String key = "dish_"+dishDto.getCategoryId() +"_1";
+        redisTemplate.delete(key);
         dishService.saveWithFlavor(dishDto);
         return R.success("保存成功");
     }
@@ -51,6 +56,8 @@ public class DishController
     @PutMapping
     public R<String> update(@RequestBody DishDto dishDto)
     {
+        String key = "dish_"+dishDto.getCategoryId() +"_1";
+        redisTemplate.delete(key);
         dishService.updateWithFlavor(dishDto);
         return R.success("修改成功");
     }
@@ -64,22 +71,29 @@ public class DishController
 //        return R.success(list);
 //    }
     @GetMapping("/list")
-    public R<List<DishDto>> getListById(Long categoryId)
+    public R<List<DishDto>> getListById(Dish dish)
     {
+        String key = "dish_"+dish.getCategoryId() +"_"+dish.getStatus();
+        List<DishDto> ret = null;
+        ret  = (List<DishDto>) redisTemplate.opsForValue().get(key);
+        if(ret != null)
+            return R.success(ret);
+
         QueryWrapper<Dish> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("category_id",categoryId);
+        queryWrapper.eq("category_id",dish.getCategoryId());
         List<Dish> list = dishService.list(queryWrapper);
-        List<DishDto> ret = new ArrayList<>();
-        for (Dish dish : list)
+        ret = new ArrayList<>();
+        for (Dish dish1 : list)
         {
             DishDto dishDto = new DishDto();
-            BeanUtils.copyProperties(dish,dishDto);
+            BeanUtils.copyProperties(dish1,dishDto);
             QueryWrapper<DishFlavor> queryWrapper1 = new QueryWrapper<>();
-            queryWrapper1.eq("dish_id",dish.getId());
+            queryWrapper1.eq("dish_id",dish1.getId());
             List<DishFlavor> list1 = dishFlavorService.list(queryWrapper1);
             dishDto.setFlavors(list1);
             ret.add(dishDto);
         }
+        redisTemplate.opsForValue().set(key,ret);
         return R.success(ret);
     }
 
